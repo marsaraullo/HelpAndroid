@@ -1,0 +1,50 @@
+[
+    {
+        "id":1001,
+        "firstname":"Mars",
+        "middlename":"C",
+        "lastname":"Araullo",
+        "address":"Del Nor",
+        "city":"Las Pinas",
+        "email":"marsrayaraullo@gmail.com",
+        "contact":"0499903350",
+        "role_id":1
+
+    },
+    {
+        "id":1002,
+        "firstname":"Robin Jimmy",
+            "middlename":"C",
+            "lastname":"Correa",
+            "address":"Calamba",
+            "city":"Laguna",
+            "email":"robin_romantiko@gmail.com",
+            "contact":"04999033521210",
+            "role_id":1
+
+    },
+    {
+    "id":1003,
+            "firstname":"Steward",
+            "middlename":"A",
+            "lastname":"Apostol",
+            "address":"Malapit Lang",
+            "city":"Paranaque",
+            "email":"steward_matulis@gmail.com",
+            "contact":"04999033521210",
+            "role_id":1
+
+    },
+    {
+    "id":1004,
+            "firstname":"Rolando",
+            "middlename":"C",
+            "lastname":"Palencia",
+            "address":"Norzagaray",
+            "city":"Bulacan",
+            "email":"dr_love69@gmail.com",
+            "contact":"04999032133350",
+            "role_id":1
+
+    }
+]

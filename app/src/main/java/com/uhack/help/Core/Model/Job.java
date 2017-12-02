@@ -5,14 +5,18 @@ import android.database.Cursor;
 
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by Mars on 12/2/2017.
  */
 
 public class Job
 {
-    public static final String TAG = "jobcomments";
+    public static final String TAG = "jobposts";
     public static final String TAG_ID = "id";
+    public static final String TAG_DATE         = "datetime";
     public static final String TAG_TITLE = "title";
     public static final String TAG_DESCRIPTION = "description";
     public static final String TAG_MIN_COST = "min_cost";
@@ -24,10 +28,12 @@ public class Job
     public static final String TAG_RATE_ASKER = "rate_asker";
     public static final String TAG_TESTIMONIAL = "testimonial";
     public static final String TAG_IMAGE = "img";
+    public static final String DATE_FORMAT      = "yyyy-MM-dd kk:mm:ss";
 
 
     String id;
     String title;
+    Date datetime;
     String description;
     float min_cost;
     float max_cost;
@@ -56,6 +62,7 @@ public class Job
             rate_asker= object.getInt(TAG_RATE_ASKER);
             testimonial= object.getString(TAG_TESTIMONIAL);
             img = object.getString(TAG_IMAGE);
+            datetime = new SimpleDateFormat(DATE_FORMAT).parse(object.getString(TAG_DATE));
         }
         catch (Exception e)
         {
@@ -79,6 +86,7 @@ public class Job
             rate_asker= cursor.getInt(cursor.getColumnIndex(TAG_RATE_ASKER));
             testimonial= cursor.getString(cursor.getColumnIndex(TAG_TESTIMONIAL));
             img = cursor.getString(cursor.getColumnIndex(TAG_IMAGE));
+            datetime = new SimpleDateFormat(DATE_FORMAT).parse(cursor.getString(cursor.getColumnIndex(TAG_DATE)));
         }
         catch (Exception e)
         {
@@ -101,6 +109,15 @@ public class Job
         values.put(TAG_RATE_ASKER,rate_asker);
         values.put(TAG_TESTIMONIAL,testimonial);
         values.put(TAG_IMAGE,img);
+        try
+        {
+            values.put(TAG_DATE,new SimpleDateFormat(DATE_FORMAT).format(datetime));
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
         return values;
     }
 
@@ -190,5 +207,21 @@ public class Job
 
     public void setTestimonial(String testimonial) {
         this.testimonial = testimonial;
+    }
+
+    public Date getDatetime() {
+        return datetime;
+    }
+
+    public void setDatetime(Date datetime) {
+        this.datetime = datetime;
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
     }
 }

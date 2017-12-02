@@ -18,18 +18,18 @@ import java.util.Arrays;
  * Created by Mars on 12/2/2017.
  */
 
-public class GetSQLiteData extends AsyncTask<Void,Void,Void>
+public class UpdateSQLiteData extends AsyncTask<Void,Void,Void>
 {
 
     Class c;
     DataListener dataListener;
     ArrayList<NameValuePair> valuePairs;
-    ArrayList<Object> results;
+    Object o;
 
-    public GetSQLiteData(Class c,DataListener listener, NameValuePair... query)
+    public UpdateSQLiteData(Class c,Object o, DataListener listener, NameValuePair... query)
     {
+        this.o = o;
         this.c = c;
-        this.results = new ArrayList<>();
         this.dataListener = listener;
         this.valuePairs = new ArrayList<>();
         this.valuePairs.addAll(Arrays.asList(query));
@@ -41,12 +41,20 @@ public class GetSQLiteData extends AsyncTask<Void,Void,Void>
     protected Void doInBackground(Void... voids)
     {
         SQLiteDatabase db = new HelperSQLHelper(Help.h.getApplicationContext()).getReadableDatabase();
-        Cursor c = db.query(getTableName(),null,getFieldNames(),getValues(),null,null,null);
+        if(c == Comment.class) {
+            Comment co = (Comment) o;
+            db.update(getTableName(), co.getValues(), getFieldNames(), getValues());
+        }
+        if(c == Helper.class)
 
-        if(c!=null)
+       {
+            Helper h = (Helper)o;
+            db.update(getTableName(),h.getValues(),getFieldNames(),getValues());
+        }
+        if(c == Job.class)
         {
-            addResults(c);
-            c.close();
+            Job j = (Job) o;
+            db.update(getTableName(),j.getValues(),getFieldNames(),getValues());
         }
         db.close();
         return null;
@@ -55,50 +63,11 @@ public class GetSQLiteData extends AsyncTask<Void,Void,Void>
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
-        if(results.size()>0)
-        {
-            dataListener.dataRetrievedFromLocal(results);
-        }
-        else
-        {
-            dataListener.noDataFromLocal(c);
-        }
+        dataListener.onUpdateLocalData(o);
 
     }
 
-    public void addResults(Cursor cursor)
-    {
 
-        if(c == Job.class)
-        {
-            Log.i("SSSS","JOB");
-            if(cursor.moveToFirst())
-            {
-                Log.i("SSSS","CURSORS:"+results.size());
-                do {
-                    results.add(new Job(cursor));
-                }while (cursor.moveToNext());
-            }
-        }
-        else if(c == Helper.class)
-        {
-            if(cursor.moveToFirst())
-            {
-                do {
-                    results.add(new Helper(cursor));
-                }while (cursor.moveToNext());
-            }
-        }
-        else if(c == Comment.class)
-        {
-            if(cursor.moveToFirst())
-            {
-                do {
-                    results.add(new Comment(cursor));
-                }while (cursor.moveToNext());
-            }
-        }
-    }
     public String getTableName()
     {
         if(c == Job.class)

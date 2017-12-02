@@ -18,18 +18,17 @@ import java.util.Arrays;
  * Created by Mars on 12/2/2017.
  */
 
-public class GetSQLiteData extends AsyncTask<Void,Void,Void>
+public class DeleteSQLiteData extends AsyncTask<Void,Void,Void>
 {
 
     Class c;
     DataListener dataListener;
     ArrayList<NameValuePair> valuePairs;
-    ArrayList<Object> results;
+    boolean isCleared = false;
 
-    public GetSQLiteData(Class c,DataListener listener, NameValuePair... query)
+    public DeleteSQLiteData(Class c, DataListener listener, NameValuePair... query)
     {
         this.c = c;
-        this.results = new ArrayList<>();
         this.dataListener = listener;
         this.valuePairs = new ArrayList<>();
         this.valuePairs.addAll(Arrays.asList(query));
@@ -41,13 +40,7 @@ public class GetSQLiteData extends AsyncTask<Void,Void,Void>
     protected Void doInBackground(Void... voids)
     {
         SQLiteDatabase db = new HelperSQLHelper(Help.h.getApplicationContext()).getReadableDatabase();
-        Cursor c = db.query(getTableName(),null,getFieldNames(),getValues(),null,null,null);
-
-        if(c!=null)
-        {
-            addResults(c);
-            c.close();
-        }
+        db.delete(getTableName(),getFieldNames(),getValues());
         db.close();
         return null;
     }
@@ -55,50 +48,17 @@ public class GetSQLiteData extends AsyncTask<Void,Void,Void>
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
-        if(results.size()>0)
+        if(isCleared)
         {
-            dataListener.dataRetrievedFromLocal(results);
+            dataListener.onClearLocalData(c);
         }
         else
         {
-            dataListener.noDataFromLocal(c);
+            dataListener.onUpdate(c);
         }
 
     }
 
-    public void addResults(Cursor cursor)
-    {
-
-        if(c == Job.class)
-        {
-            Log.i("SSSS","JOB");
-            if(cursor.moveToFirst())
-            {
-                Log.i("SSSS","CURSORS:"+results.size());
-                do {
-                    results.add(new Job(cursor));
-                }while (cursor.moveToNext());
-            }
-        }
-        else if(c == Helper.class)
-        {
-            if(cursor.moveToFirst())
-            {
-                do {
-                    results.add(new Helper(cursor));
-                }while (cursor.moveToNext());
-            }
-        }
-        else if(c == Comment.class)
-        {
-            if(cursor.moveToFirst())
-            {
-                do {
-                    results.add(new Comment(cursor));
-                }while (cursor.moveToNext());
-            }
-        }
-    }
     public String getTableName()
     {
         if(c == Job.class)
@@ -132,6 +92,7 @@ public class GetSQLiteData extends AsyncTask<Void,Void,Void>
         }
         if(result.length()<1)
         {
+            isCleared = true;
             return null;
         }
         return result;
@@ -150,14 +111,17 @@ public class GetSQLiteData extends AsyncTask<Void,Void,Void>
         }
         if(values!=null)
         {
+
             if(values.length<1)
             {
+                isCleared = true;
                 return null;
             }
             return values;
         }
         else
         {
+            isCleared = true;
             return null;
         }
 

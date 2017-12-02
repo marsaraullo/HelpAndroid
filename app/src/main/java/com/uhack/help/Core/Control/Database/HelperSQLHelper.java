@@ -25,19 +25,19 @@ public class HelperSQLHelper extends SQLiteOpenHelper
     @Override
     public void onCreate(SQLiteDatabase db)
     {
-        db.execSQL("CREATE TABLE "
+        db.execSQL("CREATE TABLE IF NOT EXISTS  "
                 + Comment.TAG
                 +" ("
-                    +Comment.TAG_ID+" TEXT, "
+                    +Comment.TAG_ID+" TEXT PRIMARY KEY, "
                     +Comment.TAG_DATE+" TEXT, "
                     +Comment.TAG_COMMENT+" TEXT, "
                     +Comment.TAG_POSTER_ID+" INTEGER, "
                     +Comment.TAG_USER_ID+" INTEGER "
                 +")");
-        db.execSQL("CREATE TABLE "
+        db.execSQL("CREATE TABLE IF NOT EXISTS  "
                 + Helper.TAG
                 +" ("
-                +Helper.TAG_ID+" INTEGER, "
+                +Helper.TAG_ID+" INTEGER PRIMARY KEY, "
                 +Helper.TAG_ADDRESS+" TEXT, "
                 +Helper.TAG_CITY+" TEXT, "
                 +Helper.TAG_CONTACT+" TEXT, "
@@ -47,10 +47,11 @@ public class HelperSQLHelper extends SQLiteOpenHelper
                 +Helper.TAG_LASTNAME+" TEXT, "
                 +Helper.TAG_ROLE+" INTEGER "
                 +")");
-        db.execSQL("CREATE TABLE "
+        db.execSQL("CREATE TABLE IF NOT EXISTS  "
                 + Job.TAG
                 +" ("
-                +Job.TAG_ID+" TEXT, "
+                +Job.TAG_ID+" TEXT PRIMARY KEY, "
+                +Job.TAG_TITLE+" TEXT, "
                 +Job.TAG_ASKER_ID+" TEXT, "
                 +Job.TAG_HELPER_ID+" TEXT, "
                 +Job.TAG_ACTUAL_COST+" REAL, "
@@ -59,7 +60,9 @@ public class HelperSQLHelper extends SQLiteOpenHelper
                 +Job.TAG_IMAGE+" TEXT, "
                 +Job.TAG_DESCRIPTION+" INTEGER, "
                 +Job.TAG_TESTIMONIAL+" INTEGER, "
-                +Comment.TAG_USER_ID+" INTEGER "
+                +Job.TAG_DATE+" STRING,"
+                +Job.TAG_RATE_ASKER+" INTEGER, "
+                +Job.TAG_RATE_HELPER+" INTEGER "
                 +")");
     }
 
