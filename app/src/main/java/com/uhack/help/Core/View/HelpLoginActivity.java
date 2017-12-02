@@ -50,7 +50,6 @@ public class HelpLoginActivity extends AppCompatActivity implements MenuListener
 
         menus.add(new MenuItem("Login"));
         menus.add(new MenuItem("Start Helping"));
-        menus.add(new MenuItem("Settings"));
         menus.add(new MenuItem("About Help!"));
         adapter = new MenuAdapter(menus,rv_view,this);
 
@@ -84,7 +83,7 @@ public class HelpLoginActivity extends AppCompatActivity implements MenuListener
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.ll_container);
         if(fragment!=null)
         {
-            getSupportFragmentManager().beginTransaction().remove(fragment);
+            getSupportFragmentManager().beginTransaction().remove(fragment).commit();
         }
         drawer.closeDrawer(navigationView);
         switch (menu.getName())
@@ -93,10 +92,7 @@ public class HelpLoginActivity extends AppCompatActivity implements MenuListener
                 getSupportFragmentManager().beginTransaction().add(R.id.ll_container,new HelpLoginFragment(),"LOGIN").commit();
                 break;
             case "Start Helping":
-                getSupportFragmentManager().beginTransaction().add(R.id.ll_container,new HelpLoginFragment(),"REGSITER").commit();
-                break;
-            case "Settings":
-                getSupportFragmentManager().beginTransaction().add(R.id.ll_container,new HelpLoginFragment(),"SETTINGS").commit();
+                getSupportFragmentManager().beginTransaction().add(R.id.ll_container,new HelpRegisterFragment(),"REGSITER").commit();
                 break;
             case "About Help!":
                 getSupportFragmentManager().beginTransaction().add(R.id.ll_container,new HelpLoginFragment(),"ABOUT HELP").commit();
