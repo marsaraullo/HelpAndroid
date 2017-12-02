@@ -1,6 +1,8 @@
 package com.uhack.help.Core.View;
 
+import android.content.Intent;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -18,6 +20,7 @@ import com.uhack.help.Core.Control.Database.GetSQLiteData;
 import com.uhack.help.Core.Control.Getter.GetSampleDataTask;
 import com.uhack.help.Core.Control.Listener.DataListener;
 import com.uhack.help.Core.Control.Listener.MenuListener;
+import com.uhack.help.Core.Control.Preference.UserPreference;
 import com.uhack.help.Core.Model.Comment;
 import com.uhack.help.Core.Model.Helper;
 import com.uhack.help.Core.Model.Job;
@@ -43,6 +46,13 @@ public class HelpLoginActivity extends AppCompatActivity implements MenuListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.help_main);
         getSupportActionBar().hide();
+        if(UserPreference.getPassword().length()>0&&UserPreference.getUsername().length()>0)
+        {
+            finish();
+            Intent i = new Intent(this,HelpHomeActivity.class);
+            startActivity(i);
+
+        }
         rv_view = (RecyclerView) findViewById(R.id.rv_view);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         rv_view.setLayoutManager(layoutManager);
@@ -95,7 +105,7 @@ public class HelpLoginActivity extends AppCompatActivity implements MenuListener
                 getSupportFragmentManager().beginTransaction().add(R.id.ll_container,new HelpRegisterFragment(),"REGSITER").commit();
                 break;
             case "About Help!":
-                getSupportFragmentManager().beginTransaction().add(R.id.ll_container,new HelpLoginFragment(),"ABOUT HELP").commit();
+                getSupportFragmentManager().beginTransaction().add(R.id.ll_container,new HelpAboutFragment(),"ABOUT HELP").commit();
                 break;
         }
     }
