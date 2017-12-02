@@ -43,6 +43,7 @@ public class HelpLoginActivity extends AppCompatActivity implements MenuListener
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+        new GetSampleDataTask(this,Helper.class);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.help_main);
         getSupportActionBar().hide();

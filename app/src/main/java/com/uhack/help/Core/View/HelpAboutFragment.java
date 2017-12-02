@@ -12,6 +12,7 @@ import com.uhack.help.R;
 
 public class HelpAboutFragment extends Fragment
 {
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

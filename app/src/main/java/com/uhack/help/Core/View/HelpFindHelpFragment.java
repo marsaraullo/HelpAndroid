@@ -12,39 +12,47 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.uhack.help.Core.Control.Database.GetSQLiteData;
-import com.uhack.help.Core.Control.Getter.GetSampleDataTask;
 import com.uhack.help.Core.Control.Listener.DataListener;
 import com.uhack.help.Core.Control.Listener.SelectListener;
+import com.uhack.help.Core.Model.Helper;
 import com.uhack.help.Core.Model.Job;
 import com.uhack.help.R;
 
 import java.util.ArrayList;
 
-public class HelpHomeFragment extends Fragment implements DataListener, SelectListener
-{
-    RecyclerView rv_jobs;
+/**
+ * Created by Mars on 12/3/2017.
+ */
 
+public class HelpFindHelpFragment extends Fragment implements DataListener,SelectListener
+{
+    RecyclerView rv_helpers;
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.help_home_fragment,container,false);
-        rv_jobs = (RecyclerView) v.findViewById(R.id.rv_jobs);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+    {
+        View v =  inflater.inflate(R.layout.help_find_help_fragment,container,false);
+        rv_helpers = (RecyclerView) v.findViewById(R.id.rv_helpers);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        rv_jobs.setLayoutManager(layoutManager);
-        new GetSQLiteData(Job.class,this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,null);
+        rv_helpers.setLayoutManager(layoutManager);
+        new GetSQLiteData(Helper.class,this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,null);
         return v;
     }
 
     @Override
-    public void dataRetrievedFromLocal(ArrayList<Object> results)
-    {
-        ArrayList<Job> jobs = new ArrayList<>();
+    public void onSelected(Object o) {
+
+
+    }
+
+    @Override
+    public void dataRetrievedFromLocal(ArrayList<Object> results) {
+        ArrayList<Helper> helpers = new ArrayList<>();
         for(Object o:results)
         {
-            jobs.add((Job)o);
+            helpers.add((Helper) o);
         }
-
-        rv_jobs.setAdapter(new HelpJobAdapter(jobs,this));
+        rv_helpers.setAdapter(new HelpHelperAdapter(helpers,this));
     }
 
     @Override
@@ -69,11 +77,6 @@ public class HelpHomeFragment extends Fragment implements DataListener, SelectLi
 
     @Override
     public void onUpdateLocalData(Object o) {
-
-    }
-
-    @Override
-    public void onSelected(Object o) {
 
     }
 }

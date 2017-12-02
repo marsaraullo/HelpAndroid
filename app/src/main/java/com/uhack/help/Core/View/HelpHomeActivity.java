@@ -5,8 +5,10 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.uhack.help.Core.Control.Preference.UserPreference;
 import com.uhack.help.R;
@@ -29,7 +31,12 @@ public class HelpHomeActivity extends AppCompatActivity
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.navigation_home:
-
+                        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.ll_container);
+                        if(fragment!=null)
+                        {
+                            getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+                        }
+                        getSupportFragmentManager().beginTransaction().add(R.id.ll_container,new HelpHomeFragment(),"HOME").commit();
                         return true;
                     case R.id.navi_signout:
                         UserPreference.setPassword("");
@@ -42,7 +49,12 @@ public class HelpHomeActivity extends AppCompatActivity
                         finish();
                         return true;
                     case R.id.navigation_help:
-
+                        Fragment f = getSupportFragmentManager().findFragmentById(R.id.ll_container);
+                        if(f!=null)
+                        {
+                            getSupportFragmentManager().beginTransaction().remove(f).commit();
+                        }
+                        getSupportFragmentManager().beginTransaction().add(R.id.ll_container,new HelpFindHelpFragment(),"HELP").commit();
                         return true;
                 }
                 return false;
